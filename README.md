@@ -1,17 +1,27 @@
-# squishling_ranker
+# Squishling
 
-A new Flutter project.
+Squishling is a private, visual ranking app for the things you love. Create boards, add photo cards, record pros, cons, notes, and locations, then drag every contender into an S–F tier.
 
-## Getting Started
+## Highlights
 
-This project is a starting point for a Flutter application.
+- S–F drag-and-drop tier boards
+- Photo cards with notes, pros, cons, and locations
+- S-Tier favorites collected across every board
+- On-device storage with Hive
+- Flutter codebase for iOS and Android
 
-A few resources to get you started if this is your first Flutter project:
+## Run locally
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+Install Flutter, then run:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```sh
+flutter pub get
+flutter run
+```
+
+## Validate
+
+```sh
+flutter analyze
+flutter test
+```
