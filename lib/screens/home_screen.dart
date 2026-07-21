@@ -20,6 +20,18 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     boards = StorageService.instance.loadBoards();
+    var migratedEmoji = false;
+    for (final board in boards) {
+      final title = board.title.toLowerCase();
+      if (board.emoji == '🍜' &&
+          (title.contains('burger') || title.contains('chicken'))) {
+        board.emoji = '🍔';
+        migratedEmoji = true;
+      }
+    }
+    if (migratedEmoji) {
+      StorageService.instance.saveBoards(boards);
+    }
   }
 
   Future<void> _save() => StorageService.instance.saveBoards(boards);
@@ -193,7 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 sliver: SliverGrid(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: 1.1,
+                    childAspectRatio: 0.96,
                     crossAxisSpacing: 12,
                     mainAxisSpacing: 12,
                   ),
