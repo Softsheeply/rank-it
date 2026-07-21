@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../main.dart' show purchaseService;
 import '../models/rank_board.dart';
 import '../models/rank_item.dart';
 import '../services/ads_service.dart';
+import '../services/purchase_service.dart';
 import '../services/storage_service.dart';
 import '../widgets/rank_item_card.dart';
 import 'board_screen.dart';
@@ -33,6 +35,27 @@ class _HomeScreenState extends State<HomeScreen> {
     if (migratedEmoji) {
       StorageService.instance.saveBoards(boards);
     }
+    purchaseService.addListener(_onPurchaseChanged);
+  }
+
+  @override
+  void dispose() {
+    purchaseService.removeListener(_onPurchaseChanged);
+    super.dispose();
+  }
+
+  void _onPurchaseChanged() {
+    if (mounted) setState(() {});
+  }
+
+  void _showRemoveAdsSheet() {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => _RemoveAdsSheet(purchaseService: purchaseService),
+    );
   }
 
   Future<void> _save() => StorageService.instance.saveBoards(boards);
@@ -50,7 +73,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _open(RankBoard board) {
-    InterstitialAdManager.instance.maybeShowOnOpen();
+    InterstitialAdManager.instance.maybeShowOnOpen(
+      adsRemoved: purchaseService.adsRemoved,
+    );
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -126,6 +151,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ],
                               ),
                             ),
+                            if (!purchaseService.adsRemoved)
+                              IconButton(
+                                icon: const Icon(Icons.block_rounded),
+                                tooltip: 'Remove Ads',
+                                onPressed: _showRemoveAdsSheet,
+                              ),
                             IconButton.filled(
                               onPressed: _newBoard,
                               icon: const Icon(Icons.add),
@@ -279,10 +310,81 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            const BannerAdBar(),
+            BannerAdBar(purchaseService: purchaseService),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _RemoveAdsSheet extends StatelessWidget {
+  final PurchaseService purchaseService;
+  const _RemoveAdsSheet({required this.purchaseService});
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: purchaseService,
+      builder: (context, _) {
+        final product = purchaseService.removeAdsProduct;
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Icon(
+                  Icons.block_rounded,
+                  size: 40,
+                  color: Color(0xFFFF6B5F),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  purchaseService.adsRemoved
+                      ? 'Ads are removed 🎉'
+                      : 'Remove Ads',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  purchaseService.adsRemoved
+                      ? 'Thanks for supporting Rank It!'
+                      : 'A one-time purchase removes all banner and interstitial ads, forever.',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const SizedBox(height: 20),
+                if (!purchaseService.adsRemoved) ...[
+                  FilledButton(
+                    onPressed:
+                        purchaseService.purchasePending || product == null
+                        ? null
+                        : purchaseService.buyRemoveAds,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      child: Text(
+                        purchaseService.purchasePending
+                            ? 'Processing…'
+                            : product != null
+                            ? 'Remove Ads — ${product.price}'
+                            : 'Remove Ads — \$1.99',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  TextButton(
+                    onPressed: purchaseService.restorePurchases,
+                    child: const Text('Restore Purchases'),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

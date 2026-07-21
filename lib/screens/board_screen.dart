@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
+import '../main.dart' show purchaseService;
 import '../models/rank_board.dart';
 import '../models/rank_item.dart';
 import '../services/ads_service.dart';
@@ -46,7 +47,7 @@ class _BoardScreenState extends State<BoardScreen> {
       icon: const Icon(Icons.add),
       label: const Text('Add item'),
     ),
-    bottomNavigationBar: const BannerAdBar(),
+    bottomNavigationBar: BannerAdBar(purchaseService: purchaseService),
     body: ListView(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 110),
       children: [

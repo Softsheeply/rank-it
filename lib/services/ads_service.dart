@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+import 'purchase_service.dart';
+
 /// Real AdMob identifiers for this app. iOS-only for now — Android units
 /// aren't configured yet, so Android falls back to Google's public test
 /// units so the app never crashes if run there.
@@ -34,10 +36,11 @@ Future<void> initAds() async {
   }
 }
 
-/// A bottom-pinned banner ad. Shows nothing (zero height) while the ad is
-/// still loading or failed to load.
+/// A bottom-pinned banner ad. Shows nothing (zero height) once ads are
+/// removed via purchase, or while the ad is still loading/failed.
 class BannerAdBar extends StatefulWidget {
-  const BannerAdBar({super.key});
+  final PurchaseService purchaseService;
+  const BannerAdBar({super.key, required this.purchaseService});
 
   @override
   State<BannerAdBar> createState() => _BannerAdBarState();
@@ -50,7 +53,18 @@ class _BannerAdBarState extends State<BannerAdBar> {
   @override
   void initState() {
     super.initState();
-    _loadBanner();
+    widget.purchaseService.addListener(_onPurchaseChanged);
+    if (!widget.purchaseService.adsRemoved) {
+      _loadBanner();
+    }
+  }
+
+  void _onPurchaseChanged() {
+    if (widget.purchaseService.adsRemoved) {
+      _bannerAd?.dispose();
+      _bannerAd = null;
+      if (mounted) setState(() => _isLoaded = false);
+    }
   }
 
   void _loadBanner() {
@@ -75,13 +89,14 @@ class _BannerAdBarState extends State<BannerAdBar> {
 
   @override
   void dispose() {
+    widget.purchaseService.removeListener(_onPurchaseChanged);
     _bannerAd?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!_isLoaded || _bannerAd == null) {
+    if (widget.purchaseService.adsRemoved || !_isLoaded || _bannerAd == null) {
       return const SizedBox.shrink();
     }
     return SafeArea(
@@ -121,8 +136,10 @@ class InterstitialAdManager {
   }
 
   /// Call this each time a board is opened. Shows an interstitial roughly
-  /// every [_showEveryNOpens] opens.
-  void maybeShowOnOpen() {
+  /// every [_showEveryNOpens] opens, and only if ads haven't been purchased
+  /// away.
+  void maybeShowOnOpen({required bool adsRemoved}) {
+    if (adsRemoved) return;
     _openCount++;
     if (_openCount % _showEveryNOpens != 0) return;
     if (_ad == null) {
