@@ -154,7 +154,7 @@ class _TierRow extends StatelessWidget {
                       ),
                     )
                   : SizedBox(
-                      height: 116,
+                      height: 128,
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         itemCount: items.length,

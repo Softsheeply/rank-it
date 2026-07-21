@@ -11,8 +11,20 @@ class NewBoardScreen extends StatefulWidget {
 
 class _NewBoardScreenState extends State<NewBoardScreen> {
   final title = TextEditingController();
-  String emoji = '🍜';
-  final emojis = ['🍜', '🎬', '🎮', '☕', '📚', '✈️', '🎵', '👟', '✨'];
+  String emoji = '🍽️';
+  final emojis = [
+    '🍽️',
+    '🍔',
+    '🍜',
+    '🎬',
+    '🎮',
+    '☕',
+    '📚',
+    '✈️',
+    '🎵',
+    '👟',
+    '✨',
+  ];
 
   @override
   Widget build(BuildContext context) => Scaffold(

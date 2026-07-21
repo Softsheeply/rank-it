@@ -40,6 +40,7 @@ class RankItemCard extends StatelessWidget {
         ),
         clipBehavior: Clip.antiAlias,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             AspectRatio(
@@ -58,11 +59,12 @@ class RankItemCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 8, 10, 10),
+              padding: const EdgeInsets.fromLTRB(10, 7, 10, 8),
               child: Text(
                 item.name,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
+                textScaler: const TextScaler.linear(1),
                 style: const TextStyle(fontWeight: FontWeight.w700),
               ),
             ),
