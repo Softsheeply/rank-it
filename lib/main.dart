@@ -8,18 +8,18 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await StorageService.instance.initialize();
-  runApp(const SquishlingApp());
+  runApp(const RankItApp());
 }
 
-class SquishlingApp extends StatelessWidget {
-  const SquishlingApp({super.key});
+class RankItApp extends StatelessWidget {
+  const RankItApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     const seed = Color(0xFFFF6B5F);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Squishling',
+      title: 'Rank It',
       themeMode: ThemeMode.dark,
       darkTheme: ThemeData(
         brightness: Brightness.dark,

@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'SQUISHLING',
+                              'RANK IT',
                               style: TextStyle(
                                 fontSize: 12,
                                 letterSpacing: 2,
@@ -97,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                             Text(
-                              'Rank what you love.',
+                              'From best to worst.',
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w800,

@@ -1,6 +1,6 @@
-# Squishling
+# Rank It
 
-Squishling is a private, visual ranking app for the things you love. Create boards, add photo cards, record pros, cons, notes, and locations, then drag every contender into an S–F tier.
+Rank It is a private, visual ranking app for the things you love. Create boards, add photo cards, record pros, cons, notes, and locations, then drag every contender into an S–F tier.
 
 ## Highlights
 
