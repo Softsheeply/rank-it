@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'screens/home_screen.dart';
+import 'services/ads_service.dart';
 import 'services/storage_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await StorageService.instance.initialize();
+  // Ads init doesn't need to block first frame; kick it off in parallel.
+  initAds().then((_) => InterstitialAdManager.instance.preload());
   runApp(const RankItApp());
 }
 

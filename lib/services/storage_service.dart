@@ -13,7 +13,7 @@ class StorageService {
   late Box<String> _box;
 
   Future<void> initialize() async {
-    _box = await Hive.openBox<String>('squishling');
+    _box = await Hive.openBox<String>('rank_it');
   }
 
   List<RankBoard> loadBoards() {
@@ -35,7 +35,7 @@ class StorageService {
     final extension = sourcePath.contains('.')
         ? sourcePath.substring(sourcePath.lastIndexOf('.'))
         : '.jpg';
-    final saved = File('${directory.path}/squishling_$id$extension');
+    final saved = File('${directory.path}/rank_it_$id$extension');
     await File(sourcePath).copy(saved.path);
     return saved.path;
   }

@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.squishling" "\0"
-            VALUE "FileDescription", "squishling_ranker" "\0"
+            VALUE "CompanyName", "com.softsheeply" "\0"
+            VALUE "FileDescription", "rank_it" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "squishling_ranker" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2026 com.squishling. All rights reserved." "\0"
-            VALUE "OriginalFilename", "squishling_ranker.exe" "\0"
-            VALUE "ProductName", "squishling_ranker" "\0"
+            VALUE "InternalName", "rank_it" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2026 com.softsheeply. All rights reserved." "\0"
+            VALUE "OriginalFilename", "rank_it.exe" "\0"
+            VALUE "ProductName", "rank_it" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

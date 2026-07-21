@@ -1,11 +1,11 @@
 {
-    "name": "squishling_ranker",
-    "short_name": "squishling_ranker",
+    "name": "Rank It",
+    "short_name": "Rank It",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "A private, visual ranking app for everything you love.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
