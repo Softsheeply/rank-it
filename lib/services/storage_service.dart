@@ -39,4 +39,10 @@ class StorageService {
     await File(sourcePath).copy(saved.path);
     return saved.path;
   }
+
+  Future<void> deleteImage(String? path) async {
+    if (path == null) return;
+    final file = File(path);
+    if (await file.exists()) await file.delete();
+  }
 }
