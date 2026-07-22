@@ -64,13 +64,19 @@ void main() {
     expect(StorageService.instance.loadBoards(), isEmpty);
   });
 
-  test('keepImage copies the source file into the app documents directory', () async {
-    final source = File('${tempDir.path}/source.jpg')
-      ..writeAsBytesSync([1, 2, 3]);
+  test(
+    'keepImage copies the source file into the app documents directory',
+    () async {
+      final source = File('${tempDir.path}/source.jpg')
+        ..writeAsBytesSync([1, 2, 3]);
 
-    final savedPath = await StorageService.instance.keepImage(source.path, 'item-1');
+      final savedPath = await StorageService.instance.keepImage(
+        source.path,
+        'item-1',
+      );
 
-    expect(File(savedPath).existsSync(), isTrue);
-    expect(savedPath, contains('rank_it_item-1'));
-  });
+      expect(File(savedPath).existsSync(), isTrue);
+      expect(savedPath, contains('rank_it_item-1'));
+    },
+  );
 }

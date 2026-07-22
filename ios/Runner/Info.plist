@@ -30,8 +30,12 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Rank It uses your camera to take photos of the things you're ranking.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Rank It uses the microphone so you can dictate pros, cons, and notes.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Rank It uses your photos to create visual ranking cards.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Rank It converts your spoken pros, cons, and notes into text.</string>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>This identifier will be used to show you more relevant ads and support free access to the app.</string>
 	<key>SKAdNetworkItems</key>

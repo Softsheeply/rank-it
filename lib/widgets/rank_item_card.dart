@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../models/rank_item.dart';
-import 'tier_badge.dart';
 
 class RankItemCard extends StatelessWidget {
   const RankItemCard({
@@ -39,7 +38,7 @@ class RankItemCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: compact ? 92 : 118,
+        width: compact ? 82 : 118,
         decoration: BoxDecoration(
           color: const Color(0xFF24242D),
           borderRadius: BorderRadius.circular(18),
@@ -49,34 +48,40 @@ class RankItemCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            AspectRatio(
-              aspectRatio: 1.15,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  image,
-                  if (item.tier != null)
-                    Positioned(
-                      top: 7,
-                      right: 7,
-                      child: TierBadge(item.tier!, size: 28),
-                    ),
-                ],
-              ),
-            ),
+            AspectRatio(aspectRatio: compact ? 1.5 : 1.15, child: image),
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 7, 10, 8),
+              padding: EdgeInsets.fromLTRB(
+                compact ? 7 : 10,
+                compact ? 4 : 7,
+                compact ? 7 : 10,
+                compact ? 5 : 8,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     item.name,
-                    maxLines: 1,
+                    maxLines: compact ? 2 : 1,
                     overflow: TextOverflow.ellipsis,
                     textScaler: const TextScaler.linear(1),
-                    style: const TextStyle(fontWeight: FontWeight.w700),
+                    style: TextStyle(
+                      fontSize: compact ? 12 : 14,
+                      height: 1.05,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
+                  if (item.location.isNotEmpty && boardLabel == null)
+                    Text(
+                      item.location,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textScaler: const TextScaler.linear(1),
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: Colors.white.withValues(alpha: .5),
+                      ),
+                    ),
                   if (boardLabel != null)
                     Text(
                       boardLabel!,
