@@ -2,12 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'screens/home_screen.dart';
+import 'services/ads_service.dart';
+import 'services/purchase_service.dart';
 import 'services/storage_service.dart';
+
+/// Shared app-wide purchase state — created once here so both the ad
+/// widgets and the "Remove Ads" button in the UI see the same instance.
+final purchaseService = PurchaseService();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await StorageService.instance.initialize();
+  await purchaseService.init();
+  // Ads init doesn't need to block first frame; kick it off in parallel.
+  initAds().then((_) => InterstitialAdManager.instance.preload());
   runApp(const RankItApp());
 }
 

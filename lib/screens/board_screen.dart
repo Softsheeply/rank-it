@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
+import '../main.dart' show purchaseService;
 import '../models/rank_board.dart';
 import '../models/rank_item.dart';
+import '../services/ads_service.dart';
 import '../widgets/rank_item_card.dart';
 import '../widgets/tier_badge.dart';
 import 'item_detail_screen.dart';
@@ -45,6 +47,7 @@ class _BoardScreenState extends State<BoardScreen> {
       icon: const Icon(Icons.add),
       label: const Text('Add item'),
     ),
+    bottomNavigationBar: BannerAdBar(purchaseService: purchaseService),
     body: ListView(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 110),
       children: [
@@ -76,7 +79,7 @@ class _BoardScreenState extends State<BoardScreen> {
         const SizedBox(height: 10),
         DragTarget<RankItem>(
           onAcceptWithDetails: (details) => _move(details.data, null),
-          builder: (_, __, ___) => Wrap(
+          builder: (_, _, _) => Wrap(
             spacing: 10,
             runSpacing: 10,
             children: widget.board.items
@@ -124,7 +127,7 @@ class _TierRow extends StatelessWidget {
     padding: const EdgeInsets.only(bottom: 10),
     child: DragTarget<RankItem>(
       onAcceptWithDetails: (details) => onAccept(details.data),
-      builder: (_, candidates, __) => AnimatedContainer(
+      builder: (_, candidates, _) => AnimatedContainer(
         duration: const Duration(milliseconds: 160),
         constraints: const BoxConstraints(minHeight: 92),
         padding: const EdgeInsets.all(10),
@@ -158,7 +161,7 @@ class _TierRow extends StatelessWidget {
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         itemCount: items.length,
-                        separatorBuilder: (_, __) => const SizedBox(width: 8),
+                        separatorBuilder: (_, _) => const SizedBox(width: 8),
                         itemBuilder: (_, index) {
                           final item = items[index];
                           return LongPressDraggable<RankItem>(

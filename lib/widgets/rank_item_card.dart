@@ -11,10 +11,16 @@ class RankItemCard extends StatelessWidget {
     required this.item,
     this.onTap,
     this.compact = false,
+    this.boardLabel,
   });
   final RankItem item;
   final VoidCallback? onTap;
   final bool compact;
+
+  /// Optional board name (e.g. "🍔 Chicken Burgers") shown under the item
+  /// name — used on the home screen's cross-board favorites row so it's
+  /// clear which ranking each S-tier pick came from.
+  final String? boardLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -60,12 +66,29 @@ class RankItemCard extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 7, 10, 8),
-              child: Text(
-                item.name,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                textScaler: const TextScaler.linear(1),
-                style: const TextStyle(fontWeight: FontWeight.w700),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    item.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textScaler: const TextScaler.linear(1),
+                    style: const TextStyle(fontWeight: FontWeight.w700),
+                  ),
+                  if (boardLabel != null)
+                    Text(
+                      boardLabel!,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textScaler: const TextScaler.linear(1),
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: Colors.white.withValues(alpha: .5),
+                      ),
+                    ),
+                ],
               ),
             ),
           ],
