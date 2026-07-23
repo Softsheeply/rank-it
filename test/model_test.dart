@@ -9,7 +9,15 @@ void main() {
       title: 'Coffee shops',
       emoji: '☕',
       items: [
-        RankItem(id: 'item-1', name: 'Moonbean', tier: 'S', pros: ['Cozy']),
+        RankItem(
+          id: 'item-1',
+          name: 'Moonbean',
+          brand: 'Moonbean',
+          itemName: 'Latte',
+          price: '5.99',
+          tier: 'S',
+          pros: ['Cozy'],
+        ),
       ],
     );
 
@@ -18,5 +26,16 @@ void main() {
     expect(restored.title, 'Coffee shops');
     expect(restored.items.single.tier, 'S');
     expect(restored.items.single.pros, ['Cozy']);
+    expect(restored.items.single.brand, 'Moonbean');
+    expect(restored.items.single.itemName, 'Latte');
+    expect(restored.items.single.price, '5.99');
+  });
+
+  test('older saved items use their name as the brand', () {
+    final item = RankItem.fromJson({'id': 'legacy', 'name': 'McDonald’s'});
+
+    expect(item.displayBrand, 'McDonald’s');
+    expect(item.itemName, isEmpty);
+    expect(item.price, isEmpty);
   });
 }

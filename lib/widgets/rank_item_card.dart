@@ -23,22 +23,26 @@ class RankItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final displayBrand = item.displayBrand;
+    final showBoardLabel = boardLabel != null;
+    final cardWidth = showBoardLabel ? 118.0 : (compact ? 82.0 : 118.0);
+    final imageHeight = showBoardLabel ? 80.0 : (compact ? 50.0 : 102.0);
     final image = item.imagePath != null && File(item.imagePath!).existsSync()
         ? Image.file(File(item.imagePath!), fit: BoxFit.cover)
         : Container(
             color: const Color(0xFF30303B),
             alignment: Alignment.center,
             child: Text(
-              item.name.isEmpty
+              displayBrand.isEmpty
                   ? '?'
-                  : item.name.characters.first.toUpperCase(),
+                  : displayBrand.characters.first.toUpperCase(),
               style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w800),
             ),
           );
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: compact ? 82 : 118,
+        width: cardWidth,
         decoration: BoxDecoration(
           color: const Color(0xFF24242D),
           borderRadius: BorderRadius.circular(18),
@@ -48,25 +52,25 @@ class RankItemCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            AspectRatio(aspectRatio: compact ? 1.5 : 1.15, child: image),
+            SizedBox(height: imageHeight, child: image),
             Padding(
               padding: EdgeInsets.fromLTRB(
-                compact ? 7 : 10,
-                compact ? 4 : 7,
-                compact ? 7 : 10,
-                compact ? 5 : 8,
+                compact && !showBoardLabel ? 7 : 10,
+                compact && !showBoardLabel ? 4 : 7,
+                compact && !showBoardLabel ? 7 : 10,
+                compact && !showBoardLabel ? 5 : 8,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    item.name,
-                    maxLines: compact ? 2 : 1,
+                    displayBrand,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textScaler: const TextScaler.linear(1),
                     style: TextStyle(
-                      fontSize: compact ? 12 : 14,
+                      fontSize: compact && !showBoardLabel ? 12 : 14,
                       height: 1.05,
                       fontWeight: FontWeight.w700,
                     ),

@@ -17,7 +17,9 @@ class ItemDetailScreen extends StatefulWidget {
 }
 
 class _ItemDetailScreenState extends State<ItemDetailScreen> {
-  late final TextEditingController name;
+  late final TextEditingController brand;
+  late final TextEditingController itemName;
+  late final TextEditingController price;
   late final TextEditingController pros;
   late final TextEditingController cons;
   late final TextEditingController notes;
@@ -31,7 +33,9 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
   void initState() {
     super.initState();
     final item = widget.item;
-    name = TextEditingController(text: item.name);
+    brand = TextEditingController(text: item.displayBrand);
+    itemName = TextEditingController(text: item.itemName);
+    price = TextEditingController(text: item.price);
     pros = TextEditingController(text: item.pros.join('\n'));
     cons = TextEditingController(text: item.cons.join('\n'));
     notes = TextEditingController(text: item.notes);
@@ -42,7 +46,9 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
   @override
   void dispose() {
     speech.stop();
-    name.dispose();
+    brand.dispose();
+    itemName.dispose();
+    price.dispose();
     pros.dispose();
     cons.dispose();
     notes.dispose();
@@ -87,8 +93,13 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
   }
 
   void _save() {
+    final savedBrand = brand.text.trim();
+    final savedItemName = itemName.text.trim();
     widget.item
-      ..name = name.text.trim()
+      ..brand = savedBrand
+      ..itemName = savedItemName
+      ..price = price.text.trim()
+      ..name = savedBrand.isNotEmpty ? savedBrand : savedItemName
       ..pros = pros.text
           .split('\n')
           .map((e) => e.trim())
@@ -269,9 +280,39 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
             ),
           ),
           const SizedBox(height: 18),
+          const Text(
+            'What are you ranking?',
+            style: TextStyle(fontSize: 17, fontWeight: FontWeight.w800),
+          ),
+          const SizedBox(height: 12),
           TextField(
-            controller: name,
-            decoration: const InputDecoration(labelText: 'Name'),
+            controller: brand,
+            textCapitalization: TextCapitalization.words,
+            decoration: const InputDecoration(
+              labelText: 'Brand',
+              hintText: 'McDonald’s',
+              prefixIcon: Icon(Icons.storefront_outlined),
+            ),
+          ),
+          const SizedBox(height: 12),
+          TextField(
+            controller: itemName,
+            textCapitalization: TextCapitalization.words,
+            decoration: const InputDecoration(
+              labelText: 'Item',
+              hintText: 'Chicken Burger',
+              prefixIcon: Icon(Icons.restaurant_outlined),
+            ),
+          ),
+          const SizedBox(height: 12),
+          TextField(
+            controller: price,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            decoration: const InputDecoration(
+              labelText: 'Price',
+              hintText: '13.99',
+              prefixIcon: Icon(Icons.attach_money),
+            ),
           ),
           const SizedBox(height: 18),
           const Text(

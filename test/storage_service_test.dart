@@ -42,6 +42,9 @@ void main() {
         RankItem(
           id: 'i1',
           name: 'Five Guys',
+          brand: 'Five Guys',
+          itemName: 'Cheeseburger',
+          price: '13.99',
           tier: 'S',
           pros: ['Juicy', 'Fresh buns'],
           cons: ['Pricey'],
@@ -58,6 +61,9 @@ void main() {
     expect(loaded.first.items.single.tier, 'S');
     expect(loaded.first.items.single.pros, ['Juicy', 'Fresh buns']);
     expect(loaded.first.items.single.location, 'Downtown');
+    expect(loaded.first.items.single.brand, 'Five Guys');
+    expect(loaded.first.items.single.itemName, 'Cheeseburger');
+    expect(loaded.first.items.single.price, '13.99');
   });
 
   test('loadBoards returns an empty list when nothing has been saved', () {
