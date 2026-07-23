@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:squishling_ranker/models/rank_board.dart';
-import 'package:squishling_ranker/models/rank_item.dart';
+import 'package:rank_it/models/rank_board.dart';
+import 'package:rank_it/models/rank_item.dart';
 
 void main() {
   test('ranking boards round-trip without losing item details', () {

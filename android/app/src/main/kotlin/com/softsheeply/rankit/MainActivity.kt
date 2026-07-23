@@ -1,4 +1,4 @@
-package com.squishling.squishling_ranker
+package com.softsheeply.rankit
 
 import io.flutter.embedding.android.FlutterActivity
 

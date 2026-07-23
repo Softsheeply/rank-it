@@ -1,4 +1,4 @@
-name: squishling_ranker
+name: rank_it
 description: "A private visual ranking app for everything you love."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.

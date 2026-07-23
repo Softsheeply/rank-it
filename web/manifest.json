@@ -1,6 +1,6 @@
 {
-    "name": "squishling_ranker",
-    "short_name": "squishling_ranker",
+    "name": "rank_it",
+    "short_name": "rank_it",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
