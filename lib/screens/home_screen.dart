@@ -72,6 +72,35 @@ class _HomeScreenState extends State<HomeScreen> {
     _open(board);
   }
 
+  Future<void> _deleteBoard(RankBoard board) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Delete ${board.title}?'),
+        content: Text(
+          'This permanently deletes the ranking and all ${board.items.length} items in it.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+    for (final item in board.items) {
+      await StorageService.instance.deleteImage(item.imagePath);
+    }
+    setState(() => boards.remove(board));
+    await _save();
+  }
+
   void _open(RankBoard board) {
     InterstitialAdManager.instance.maybeShowOnOpen(
       adsRemoved: purchaseService.adsRemoved,
@@ -266,43 +295,73 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                         delegate: SliverChildBuilderDelegate((_, index) {
                           final board = boards[index];
-                          return InkWell(
-                            onTap: () => _open(board),
-                            borderRadius: BorderRadius.circular(24),
-                            child: Container(
-                              padding: const EdgeInsets.all(18),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF1C1C24),
-                                borderRadius: BorderRadius.circular(24),
-                                border: Border.all(color: Colors.white10),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    board.emoji,
-                                    style: const TextStyle(fontSize: 34),
-                                  ),
-                                  const Spacer(),
-                                  Text(
-                                    board.title,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w800,
+                          return Stack(
+                            children: [
+                              Positioned.fill(
+                                child: InkWell(
+                                  onTap: () => _open(board),
+                                  borderRadius: BorderRadius.circular(24),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(18),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF1C1C24),
+                                      borderRadius: BorderRadius.circular(24),
+                                      border: Border.all(color: Colors.white10),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          board.emoji,
+                                          style: const TextStyle(fontSize: 34),
+                                        ),
+                                        const Spacer(),
+                                        Text(
+                                          board.title,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Text(
+                                          '${board.items.length} items',
+                                          style: const TextStyle(
+                                            color: Colors.white54,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    '${board.items.length} items',
-                                    style: const TextStyle(
-                                      color: Colors.white54,
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
+                              Positioned(
+                                top: 6,
+                                right: 6,
+                                child: PopupMenuButton<String>(
+                                  tooltip: 'Ranking options',
+                                  onSelected: (_) => _deleteBoard(board),
+                                  itemBuilder: (_) => const [
+                                    PopupMenuItem(
+                                      value: 'delete',
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.delete_outline,
+                                            color: Colors.redAccent,
+                                          ),
+                                          SizedBox(width: 10),
+                                          Text('Delete ranking'),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           );
                         }, childCount: boards.length),
                       ),

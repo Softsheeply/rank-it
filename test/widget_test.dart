@@ -32,7 +32,9 @@ void main() {
     }
   });
 
-  testWidgets('shows the empty state with no boards yet', (WidgetTester tester) async {
+  testWidgets('shows the empty state with no boards yet', (
+    WidgetTester tester,
+  ) async {
     // HomeScreen reads already-open Hive data synchronously in initState,
     // so a single pump is enough — no real async gap to wait out here.
     // (Deliberately not using tester.runAsync: doing so would give the
