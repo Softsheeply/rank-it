@@ -28,6 +28,8 @@
 	<string>ca-app-pub-7275597651109621~7899126145</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>NSCameraUsageDescription</key>
 	<string>Rank It uses your camera to take photos of the things you're ranking.</string>
 	<key>NSMicrophoneUsageDescription</key>
