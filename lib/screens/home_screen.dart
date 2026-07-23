@@ -7,6 +7,7 @@ import '../services/ads_service.dart';
 import '../services/purchase_service.dart';
 import '../services/storage_service.dart';
 import '../widgets/rank_item_card.dart';
+import '../widgets/board_avatar.dart';
 import 'board_screen.dart';
 import 'new_board_screen.dart';
 
@@ -97,6 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
     for (final item in board.items) {
       await StorageService.instance.deleteImage(item.imagePath);
     }
+    await StorageService.instance.deleteImage(board.imagePath);
     setState(() => boards.remove(board));
     await _save();
   }
@@ -243,7 +245,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 return RankItemCard(
                                   item: item,
                                   compact: true,
-                                  boardLabel: '${board.emoji} ${board.title}',
+                                  boardLabel: board.imagePath == null
+                                      ? '${board.emoji} ${board.title}'
+                                      : board.title,
                                 );
                               },
                             ),
@@ -312,9 +316,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          board.emoji,
-                                          style: const TextStyle(fontSize: 34),
+                                        BoardAvatar(
+                                          board: board,
+                                          size: 58,
+                                          borderRadius: 18,
                                         ),
                                         const Spacer(),
                                         Text(

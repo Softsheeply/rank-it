@@ -8,6 +8,7 @@ void main() {
       id: 'board-1',
       title: 'Coffee shops',
       emoji: '☕',
+      imagePath: '/documents/coffee.jpg',
       items: [
         RankItem(
           id: 'item-1',
@@ -24,6 +25,7 @@ void main() {
     final restored = RankBoard.fromJson(board.toJson());
 
     expect(restored.title, 'Coffee shops');
+    expect(restored.imagePath, '/documents/coffee.jpg');
     expect(restored.items.single.tier, 'S');
     expect(restored.items.single.pros, ['Cozy']);
     expect(restored.items.single.brand, 'Moonbean');

@@ -6,6 +6,7 @@ import '../models/rank_board.dart';
 import '../models/rank_item.dart';
 import '../services/ads_service.dart';
 import '../widgets/rank_item_card.dart';
+import '../widgets/board_avatar.dart';
 import '../widgets/tier_badge.dart';
 import 'item_detail_screen.dart';
 import '../services/storage_service.dart';
@@ -83,7 +84,20 @@ class _BoardScreenState extends State<BoardScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
-      title: Text('${widget.board.emoji}  ${widget.board.title}'),
+      titleSpacing: 12,
+      title: Row(
+        children: [
+          BoardAvatar(board: widget.board, size: 38, borderRadius: 11),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              widget.board.title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
       actions: [
         PopupMenuButton<String>(
           onSelected: (_) => _deleteAllItems(),
